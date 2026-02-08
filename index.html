@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GRND STUDIO — A multi-disciplinary digital solutions studio. AI-driven applications, e-commerce powerhouses, and creative technology from the Netherlands.">
+<meta name="keywords" content="digital studio, web development, AI applications, e-commerce, consultancy, GRND Studio, Netherlands">
+<meta name="author" content="GRND STUDIO">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="GRND STUDIO — Where Code Meets Solutions">
+<meta property="og:description" content="We build the digital solutions for the next generation of businesses. From AI-driven applications to chart-topping websites.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://grnd.studio">
+<meta property="og:image" content="https://grnd.studio/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@grndstudio1">
+<meta name="twitter:title" content="GRND STUDIO — Where Code Meets Solutions">
+<meta name="twitter:description" content="We build the digital solutions for the next generation of businesses.">
+<link rel="canonical" href="https://grnd.studio">
+<title>GRND STUDIO — Where Code Meets Solutions</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════ */
+:root {
+  --white: #ffffff;
+  --black: #0b0b0b;
+  --gray: #6b6b6b;
+  --gray-light: #a0a0a0;
+  --gray-border: #e0e0e0;
+  --teal: #1a3a3a;
+  --teal-deep: #0f2626;
+  --teal-accent: #1d4d4d;
+  --lavender-border: rgba(160, 140, 200, 0.3);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--black);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+::selection {
+  background: var(--teal);
+  color: var(--white);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL SNAP CONTAINER
+   ═══════════════════════════════════════════ */
+.slide-container {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+  pointer-events: none;
+}
+
+.nav.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 var(--gray-border);
+}
+
+.nav > * { pointer-events: auto; }
+
+.nav-logo {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--black);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--black);
+  transition: width 0.4s var(--ease-out);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--black);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* Mobile menu toggle */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: all 0.3s ease;
+}
+
+.nav-toggle.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE CONTROLS (arrows)
+   ═══════════════════════════════════════════ */
+.slide-controls {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.slide-controls button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gray-border);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: var(--black);
+}
+
+.slide-controls button:hover {
+  background: var(--black);
+  border-color: var(--black);
+  color: var(--white);
+  transform: scale(1.08);
+}
+
+.slide-controls button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.slide-indicator {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-light);
+  letter-spacing: 0.15em;
+  writing-mode: vertical-rl;
+  margin: 8px 0;
+}
+
+/* ═══════════════════════════════════════════
+   TEXT REVEAL ANIMATIONS
+   ═══════════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
+
+/* ═══════════════════════════════════════════
+   SLIDE 1 — HOME
+   ═══════════════════════════════════════════ */
+.home-slide {
+  background: var(--white);
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.home-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding-top: 80px;
+}
+
+.home-text {
+  max-width: 560px;
+}
+
+.home-headline {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(42px, 5.2vw, 82px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  margin-bottom: 28px;
+}
+
+.home-headline span {
+  display: block;
+}
+
+.home-desc {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.7;
+  color: var(--gray);
+  max-width: 440px;
+}
+
+.home-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-artwork {
+  width: clamp(280px, 28vw, 460px);
+  height: clamp(280px, 28vw, 460px);
+  background: var(--black);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  animation: heroFloat 5s ease-in-out infinite;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.12), 0 16px 32px rgba(0,0,0,0.08);
+}
+
+.hero-artwork::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: 9px 9px;
+  opacity: 0.6;
+}
+
+.hero-artwork::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 2 — THE STORY
+   ═══════════════════════════════════════════ */
+.story-slide {
+  background: var(--white);
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.story-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 5vw, 100px);
+  align-items: center;
+  padding-top: 80px;
+}
+
+.story-image-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  max-height: 70vh;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid var(--lavender-border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+}
+
+.story-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Placeholder editorial image */
+.story-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #e8e4ec 0%, #d4cdd9 40%, #b8afc0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.story-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.3) 50%, transparent 52%);
+}
+
+.story-placeholder::after {
+  content: '[GRND]';
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 28px;
+  color: rgba(11,11,11,0.12);
+  letter-spacing: 0.1em;
+}
+
+.story-content {
+  max-width: 500px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 7vw, 120px);
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  margin-bottom: 36px;
+}
+
+.story-body p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: 1.85;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.story-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 3 — WHAT WE DO
+   ═══════════════════════════════════════════ */
+.services-slide {
+  background: var(--white);
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.services-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.services-title {
+  font-family: var(--font-display);
+  font-size: clamp(50px, 6vw, 100px);
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 1.5vw, 24px);
+  height: clamp(320px, 42vh, 480px);
+}
+
+.service-card {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.service-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.14);
+}
+
+.service-card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.service-card:hover .service-card-bg {
+  transform: scale(1.06);
+}
+
+.card-1 .service-card-bg {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+.card-1 .service-card-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.card-2 .service-card-bg {
+  background: linear-gradient(135deg, #2d1b36 0%, #1a1a2e 50%, #0d1117 100%);
+}
+.card-2 .service-card-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px);
+}
+
+.card-3 .service-card-bg {
+  background: linear-gradient(135deg, #0b2027 0%, #1a3a3a 50%, #0f2626 100%);
+}
+.card-3 .service-card-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.06) 0%, transparent 60%);
+}
+
+.service-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.65) 100%);
+}
+
+.service-card-label {
+  position: absolute;
+  bottom: clamp(20px, 2.5vw, 36px);
+  left: clamp(20px, 2.5vw, 32px);
+  right: clamp(20px, 2.5vw, 32px);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(13px, 1.15vw, 18px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE 4 — CONTACT US
+   ═══════════════════════════════════════════ */
+.contact-slide {
+  background: var(--white);
+  padding: 0 clamp(24px, 5vw, 80px);
+}
+
+.contact-inner {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(40px, 5vw, 100px);
+  align-items: center;
+  padding-top: 80px;
+}
+
+.contact-title {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 7vw, 130px);
+  line-height: 0.92;
+  letter-spacing: 0.04em;
+  color: var(--black);
+}
+
+.contact-form-card {
+  background: linear-gradient(160deg, #f4f4f6 0%, #e8eef2 50%, #dce8ec 100%);
+  border-radius: 24px;
+  padding: clamp(32px, 3.5vw, 56px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.04);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--black);
+  background: rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-appearance: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--teal-accent);
+  box-shadow: 0 0 0 3px rgba(29,77,77,0.08);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-submit {
+  width: 100%;
+  padding: 16px 32px;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+  margin-top: 8px;
+}
+
+.form-submit:hover {
+  background: var(--teal);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(26,58,58,0.25);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER (not a slide)
+   ═══════════════════════════════════════════ */
+.site-footer {
+  padding: 24px clamp(24px, 5vw, 80px) 32px;
+  background: var(--white);
+}
+
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  background: var(--teal-deep);
+  border-radius: 24px;
+  padding: clamp(28px, 3vw, 48px) clamp(28px, 4vw, 60px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-logo {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(24px, 2.5vw, 36px);
+  letter-spacing: 0.06em;
+  color: var(--white);
+}
+
+.footer-info {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.03em;
+}
+
+.footer-contact {
+  text-align: right;
+}
+
+.footer-contact p {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+}
+
+.footer-contact a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+  color: var(--white);
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE STYLES
+   ═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav {
+    padding: 18px 24px;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .nav-links.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-links a {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .nav-toggle {
+    display: flex;
+    z-index: 1001;
+  }
+
+  .slide-controls {
+    right: 16px;
+  }
+
+  .slide-controls button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .slide-controls button svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Home */
+  .home-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    text-align: left;
+    padding-top: 100px;
+  }
+
+  .home-visual {
+    order: -1;
+    justify-content: flex-start;
+  }
+
+  .hero-artwork {
+    width: clamp(180px, 50vw, 240px);
+    height: clamp(180px, 50vw, 240px);
+  }
+
+  .home-headline {
+    font-size: clamp(36px, 10vw, 52px);
+    margin-bottom: 18px;
+  }
+
+  .home-desc {
+    font-size: 14px;
+  }
+
+  /* Story */
+  .story-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 90px;
+  }
+
+  .story-image-wrap {
+    max-height: 35vh;
+    aspect-ratio: auto;
+  }
+
+  .section-title {
+    font-size: clamp(48px, 14vw, 80px);
+    margin-bottom: 20px;
+  }
+
+  .story-body p {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+
+  /* Services */
+  .services-inner {
+    padding-top: 90px;
+  }
+
+  .services-title {
+    font-size: clamp(44px, 12vw, 70px);
+    margin-bottom: 24px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 14px;
+  }
+
+  .service-card {
+    height: clamp(140px, 22vh, 180px);
+  }
+
+  /* Contact */
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 90px;
+  }
+
+  .contact-title {
+    font-size: clamp(48px, 14vw, 80px);
+  }
+
+  .contact-form-card {
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  /* Footer */
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 18px;
+    padding: 28px;
+  }
+
+  .footer-contact {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-headline {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+
+  .hero-artwork {
+    width: 160px;
+    height: 160px;
+  }
+
+  .service-card {
+    height: 130px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   LOADING OVERLAY
+   ═══════════════════════════════════════════ */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loader.done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-text {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: var(--black);
+  animation: loaderPulse 1s ease-in-out infinite;
+}
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-text">[GRND]</div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+  <a class="nav-logo" href="#home" data-slide="0" aria-label="GRND Studio Home">[GRND]</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" data-slide="0" class="active">Home</a></li>
+    <li><a href="#story" data-slide="1">The Story</a></li>
+    <li><a href="#services" data-slide="2">What We Do</a></li>
+    <li><a href="#contact" data-slide="3">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- SLIDE CONTROLS -->
+<div class="slide-controls" aria-label="Slide navigation">
+  <button id="prevSlide" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <span class="slide-indicator" id="slideIndicator">01 / 04</span>
+  <button id="nextSlide" aria-label="Next slide">
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+</div>
+
+<!-- SLIDE CONTAINER -->
+<main class="slide-container" id="slideContainer">
+
+  <!-- SLIDE 1 — HOME -->
+  <section class="slide home-slide" id="home" aria-label="Home">
+    <div class="home-inner">
+      <div class="home-text">
+        <h1 class="home-headline reveal">
+          <span>Where Code</span>
+          <span>Meets Solutions.</span>
+        </h1>
+        <p class="home-desc reveal reveal-delay-2">We build the digital solutions for the next generation of businesses. From AI-driven applications to chart-topping websites — GRND STUDIO turns technical complexity into creative edge.</p>
+      </div>
+      <div class="home-visual">
+        <div class="hero-artwork reveal reveal-delay-3" role="img" aria-label="GRND Studio hero artwork — abstract pixel pattern"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — THE STORY -->
+  <section class="slide story-slide" id="story" aria-label="The Story">
+    <div class="story-inner">
+      <div class="story-image-wrap reveal">
+        <div class="story-placeholder" role="img" aria-label="GRND Studio editorial portrait"></div>
+      </div>
+      <div class="story-content">
+        <h2 class="section-title reveal reveal-delay-1">THE STORY</h2>
+        <div class="story-body">
+          <p class="reveal reveal-delay-2">Founded in 2017 and officially established in 2020, GRND Studio was born in the realm of the internet.</p>
+          <p class="reveal reveal-delay-3">Operating from the Netherlands, we have scaled from tech roots to launching international e-commerce powerhouses like MEANR.EU.</p>
+          <p class="reveal reveal-delay-4">Today, we are a multi-disciplinary solutions studio obsessed with the synergy between human art and artificial intelligence. We don't just follow the "grind"— we master the craft.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — WHAT WE DO -->
+  <section class="slide services-slide" id="services" aria-label="What We Do">
+    <div class="services-inner">
+      <h2 class="services-title reveal">WHAT WE DO</h2>
+      <div class="services-grid">
+        <article class="service-card card-1 reveal reveal-delay-1" tabindex="0" aria-label="Application and Tools Development">
+          <div class="service-card-bg"></div>
+          <div class="service-card-overlay"></div>
+          <span class="service-card-label">Application/Tools<br>Development</span>
+        </article>
+        <article class="service-card card-2 reveal reveal-delay-2" tabindex="0" aria-label="E-Commerce and Websites">
+          <div class="service-card-bg"></div>
+          <div class="service-card-overlay"></div>
+          <span class="service-card-label">E-Commerce<br>&amp; Websites</span>
+        </article>
+        <article class="service-card card-3 reveal reveal-delay-3" tabindex="0" aria-label="Consultancy and Solutions">
+          <div class="service-card-bg"></div>
+          <div class="service-card-overlay"></div>
+          <span class="service-card-label">Consultancy<br>&amp; Solutions</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — CONTACT US -->
+  <section class="slide contact-slide" id="contact" aria-label="Contact Us">
+    <div class="contact-inner">
+      <div>
+        <h2 class="contact-title reveal">CONTACT<br>US</h2>
+      </div>
+      <div class="contact-form-card reveal reveal-delay-2">
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="message">Leave a Message</label>
+            <textarea id="message" name="message" placeholder="Tell us about your project…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (not a slide) -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <span class="footer-logo">[GRND]</span>
+      <span class="footer-info">KVK: 85231908</span>
+      <div class="footer-contact">
+        <p>Email: <a href="mailto:info@grnd.studio">info@grnd.studio</a></p>
+        <p>Social: <a href="https://instagram.com/grndstudio1" target="_blank" rel="noopener noreferrer">@grndstudio1</a></p>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── ELEMENTS ──
+  const container = document.getElementById('slideContainer');
+  const slides = document.querySelectorAll('.slide');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const navLogo = document.querySelector('.nav-logo');
+  const nav = document.getElementById('nav');
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navLinks');
+  const prevBtn = document.getElementById('prevSlide');
+  const nextBtn = document.getElementById('nextSlide');
+  const indicator = document.getElementById('slideIndicator');
+  const loader = document.getElementById('loader');
+  const totalSlides = slides.length;
+  let currentSlide = 0;
+  let isScrolling = false;
+
+  // ── LOADER ──
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      loader.classList.add('done');
+      triggerReveal(0);
+    }, 600);
+  });
+
+  // ── NAVIGATE TO SLIDE ──
+  function goToSlide(index, smooth) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+
+    currentSlide = index;
+    const target = slides[index];
+
+    isScrolling = true;
+    container.scrollTo({
+      top: target.offsetTop,
+      behavior: smooth !== false ? 'smooth' : 'instant'
+    });
+
+    setTimeout(() => { isScrolling = false; }, 800);
+
+    updateNav(index);
+    triggerReveal(index);
+    updateIndicator(index);
+  }
+
+  // ── UPDATE NAV ACTIVE STATE ──
+  function updateNav(index) {
+    navLinks.forEach((link, i) => {
+      link.classList.toggle('active', i === index);
+    });
+
+    // Scrolled state
+    nav.classList.toggle('scrolled', index > 0);
+  }
+
+  // ── UPDATE INDICATOR ──
+  function updateIndicator(index) {
+    const num = String(index + 1).padStart(2, '0');
+    indicator.textContent = `${num} / 0${totalSlides}`;
+  }
+
+  // ── TEXT REVEAL ──
+  function triggerReveal(slideIndex) {
+    const reveals = slides[slideIndex].querySelectorAll('.reveal');
+    reveals.forEach((el) => {
+      el.classList.add('visible');
+    });
+  }
+
+  // ── NAV CLICKS ──
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const slideIdx = parseInt(this.dataset.slide);
+      goToSlide(slideIdx);
+      closeMobileMenu();
+    });
+  });
+
+  navLogo.addEventListener('click', function(e) {
+    e.preventDefault();
+    goToSlide(0);
+    closeMobileMenu();
+  });
+
+  // ── SLIDE CONTROLS ──
+  prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+  nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+  // ── MOBILE MENU ──
+  navToggle.addEventListener('click', function() {
+    const isOpen = navMenu.classList.toggle('open');
+    this.classList.toggle('open');
+    this.setAttribute('aria-expanded', isOpen);
+  });
+
+  function closeMobileMenu() {
+    navMenu.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  // ── SCROLL SNAP DETECTION ──
+  let scrollTimeout;
+  container.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      if (isScrolling) return;
+      // Determine which slide is most visible
+      let closest = 0;
+      let minDist = Infinity;
+      slides.forEach((slide, i) => {
+        const dist = Math.abs(slide.offsetTop - container.scrollTop);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = i;
+        }
+      });
+      if (closest !== currentSlide) {
+        currentSlide = closest;
+        updateNav(closest);
+        triggerReveal(closest);
+        updateIndicator(closest);
+      }
+    }, 80);
+  });
+
+  // ── KEYBOARD NAV ──
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+      e.preventDefault();
+      goToSlide(currentSlide + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+      e.preventDefault();
+      goToSlide(currentSlide - 1);
+    }
+  });
+
+  // ── CONTACT FORM ──
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.form-submit');
+    btn.textContent = 'Sent ✓';
+    btn.style.background = 'var(--teal)';
+    setTimeout(() => {
+      btn.textContent = 'Submit';
+      btn.style.background = '';
+      this.reset();
+    }, 2500);
+  });
+
+  // ── INIT ──
+  updateIndicator(0);
+})();
+</script>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GRND STUDIO",
+  "url": "https://grnd.studio",
+  "email": "info@grnd.studio",
+  "description": "A multi-disciplinary digital solutions studio specializing in AI-driven applications, e-commerce, and creative technology.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "NL"
+  },
+  "sameAs": [
+    "https://instagram.com/grndstudio1"
+  ]
+}
+</script>
+
+</body>
+</html>

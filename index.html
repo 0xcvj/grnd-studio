@@ -568,7 +568,17 @@ body {
    ═══════════════════════════════════════════ */
 .contact-slide {
   background: var(--white);
+  padding: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.contact-main {
+  width: 100%;
   padding: 0 clamp(24px, 5vw, 80px);
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 .contact-inner {
@@ -666,8 +676,10 @@ body {
    FOOTER (not a slide)
    ═══════════════════════════════════════════ */
 .site-footer {
-  padding: 24px clamp(24px, 5vw, 80px) 32px;
+  width: 100%;
+  padding: 0 clamp(24px, 5vw, 80px) 24px;
   background: var(--white);
+  flex-shrink: 0;
 }
 
 .footer-inner {
@@ -861,6 +873,10 @@ body {
     border-radius: 18px;
   }
 
+  .contact-main {
+    padding-top: 0;
+  }
+
   /* Footer */
   .footer-inner {
     flex-direction: column;
@@ -1019,41 +1035,43 @@ body {
 
   <!-- SLIDE 4 — CONTACT US -->
   <section class="slide contact-slide" id="contact" aria-label="Contact Us">
-    <div class="contact-inner">
-      <div>
-        <h2 class="contact-title reveal">CONTACT<br>US</h2>
-      </div>
-      <div class="contact-form-card reveal reveal-delay-2">
-        <form id="contactForm" novalidate>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label for="message">Leave a Message</label>
-            <textarea id="message" name="message" placeholder="Tell us about your project…" required></textarea>
-          </div>
-          <button type="submit" class="form-submit">Submit</button>
-        </form>
+    <div class="contact-main">
+      <div class="contact-inner">
+        <div>
+          <h2 class="contact-title reveal">CONTACT<br>US</h2>
+        </div>
+        <div class="contact-form-card reveal reveal-delay-2">
+          <form id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="message">Leave a Message</label>
+              <textarea id="message" name="message" placeholder="Tell us about your project…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Submit</button>
+          </form>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER (not a slide) -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="footer-inner">
-      <span class="footer-logo">[GRND]</span>
-      <span class="footer-info">KVK: 85231908</span>
-      <div class="footer-contact">
-        <p>Email: <a href="mailto:info@grnd.studio">info@grnd.studio</a></p>
-        <p>Social: <a href="https://instagram.com/grndstudio1" target="_blank" rel="noopener noreferrer">@grndstudio1</a></p>
+    <!-- FOOTER (inside contact slide) -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <span class="footer-logo">[GRND]</span>
+        <span class="footer-info">KVK: 85231908</span>
+        <div class="footer-contact">
+          <p>Email: <a href="mailto:info@grnd.studio">info@grnd.studio</a></p>
+          <p>Social: <a href="https://instagram.com/grndstudio1" target="_blank" rel="noopener noreferrer">@grndstudio1</a></p>
+        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </section>
 
 </main>
 

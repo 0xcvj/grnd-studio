@@ -335,25 +335,14 @@ body {
   overflow: hidden;
   animation: heroFloat 5s ease-in-out infinite;
   box-shadow: 0 40px 80px rgba(0,0,0,0.12), 0 16px 32px rgba(0,0,0,0.08);
+  cursor: none;
 }
 
-.hero-artwork::before {
-  content: '';
+.hero-artwork canvas {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px);
-  background-size: 18px 18px;
-  background-position: 9px 9px;
-  opacity: 0.6;
-}
-
-.hero-artwork::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes heroFloat {
@@ -988,7 +977,9 @@ body {
         <p class="home-desc reveal reveal-delay-2">We build the digital solutions for the next generation of businesses. From AI-driven applications to chart-topping websites — GRND STUDIO turns technical complexity into creative edge.</p>
       </div>
       <div class="home-visual">
-        <div class="hero-artwork reveal reveal-delay-3" role="img" aria-label="GRND Studio hero artwork — abstract pixel pattern"></div>
+        <div class="hero-artwork reveal reveal-delay-3" role="img" aria-label="GRND Studio hero artwork — interactive particle grid">
+          <canvas id="dotCanvas"></canvas>
+        </div>
       </div>
     </div>
   </section>
@@ -997,8 +988,7 @@ body {
   <section class="slide story-slide" id="story" aria-label="The Story">
     <div class="story-inner">
       <div class="story-image-wrap reveal">
-        <img src="2.png" alt="GRND Studio editorial portrait" style="width:100%;height:100%;object-fit:cover;display:block;">
-      </div>
+         <img src="2.png" alt="GRND Studio editorial portrait" style="width:100%;height:100%;object-fit:cover;display:block;">      </div>
       <div class="story-content">
         <h2 class="section-title reveal reveal-delay-1">THE STORY</h2>
         <div class="story-body">
@@ -1230,6 +1220,150 @@ body {
       this.reset();
     }, 2500);
   });
+
+  // ── INTERACTIVE DOT PARTICLE SYSTEM ──
+  (function() {
+    const canvas = document.getElementById('dotCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const container = canvas.parentElement;
+
+    let dots = [];
+    let mouse = { x: -9999, y: -9999, active: false };
+    let animId;
+    const SPACING = 18;
+    const DOT_RADIUS = 1.5;
+    const SCATTER_RADIUS = 80;
+    const SCATTER_FORCE = 12;
+    const RETURN_SPEED = 0.06;
+    const FRICTION = 0.85;
+
+    function initDots() {
+      const rect = container.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      dots = [];
+      const cols = Math.floor(rect.width / SPACING);
+      const rows = Math.floor(rect.height / SPACING);
+      const offsetX = (rect.width - cols * SPACING) / 2 + SPACING / 2;
+      const offsetY = (rect.height - rows * SPACING) / 2 + SPACING / 2;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const homeX = offsetX + c * SPACING;
+          const homeY = offsetY + r * SPACING;
+          dots.push({
+            homeX: homeX,
+            homeY: homeY,
+            x: homeX,
+            y: homeY,
+            vx: 0,
+            vy: 0,
+            opacity: 0.5 + Math.random() * 0.3
+          });
+        }
+      }
+    }
+
+    function animate() {
+      const rect = container.getBoundingClientRect();
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+
+        // Mouse repulsion
+        if (mouse.active) {
+          const dx = d.x - mouse.x;
+          const dy = d.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < SCATTER_RADIUS && dist > 0) {
+            const force = (SCATTER_RADIUS - dist) / SCATTER_RADIUS;
+            const angle = Math.atan2(dy, dx);
+            d.vx += Math.cos(angle) * force * SCATTER_FORCE;
+            d.vy += Math.sin(angle) * force * SCATTER_FORCE;
+          }
+        }
+
+        // Spring back to home
+        d.vx += (d.homeX - d.x) * RETURN_SPEED;
+        d.vy += (d.homeY - d.y) * RETURN_SPEED;
+
+        // Apply friction
+        d.vx *= FRICTION;
+        d.vy *= FRICTION;
+
+        // Update position
+        d.x += d.vx;
+        d.y += d.vy;
+
+        // Distance from home for dynamic sizing/opacity
+        const distFromHome = Math.sqrt(
+          (d.x - d.homeX) * (d.x - d.homeX) +
+          (d.y - d.homeY) * (d.y - d.homeY)
+        );
+        const displacement = Math.min(distFromHome / 40, 1);
+        const radius = DOT_RADIUS + displacement * 1.5;
+        const alpha = d.opacity + displacement * 0.3;
+
+        // Draw
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + alpha + ')';
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(animate);
+    }
+
+    // Mouse events on the artwork container
+    container.addEventListener('mousemove', function(e) {
+      const rect = container.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+
+    container.addEventListener('mouseleave', function() {
+      mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    // Touch support
+    container.addEventListener('touchmove', function(e) {
+      const rect = container.getBoundingClientRect();
+      const touch = e.touches[0];
+      mouse.x = touch.clientX - rect.left;
+      mouse.y = touch.clientY - rect.top;
+      mouse.active = true;
+    }, { passive: true });
+
+    container.addEventListener('touchend', function() {
+      mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    // Resize handling
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        cancelAnimationFrame(animId);
+        initDots();
+        animate();
+      }, 200);
+    });
+
+    // Init
+    initDots();
+    animate();
+  })();
 
   // ── INIT ──
   updateIndicator(0);

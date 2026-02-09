@@ -320,6 +320,28 @@ body {
   max-width: 440px;
 }
 
+.hero-cta {
+  display: inline-block;
+  margin-top: 32px;
+  padding: 16px 48px;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.4s var(--ease-out);
+}
+
+.hero-cta:hover {
+  background: var(--teal);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(26,58,58,0.25);
+}
+
 .home-visual {
   display: flex;
   justify-content: center;
@@ -975,6 +997,7 @@ body {
           <span>Meets Solutions.</span>
         </h1>
         <p class="home-desc reveal reveal-delay-2">We build the digital solutions for the next generation of businesses. From AI-driven applications to chart-topping websites — GRND STUDIO turns technical complexity into creative edge.</p>
+         <a href="mailto:info@grnd.studio" class="hero-cta reveal reveal-delay-3">Contact Us</a>
       </div>
       <div class="home-visual">
         <div class="hero-artwork reveal reveal-delay-3" role="img" aria-label="GRND Studio hero artwork — interactive particle grid">
